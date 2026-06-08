@@ -72,14 +72,16 @@ function crearTransporter() {
   }
 
   return nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
     },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000
   });
 }
 
@@ -305,6 +307,10 @@ app.post("/api/registro", function (req, res) {
     })
     .catch(function (error) {
       console.log("Error inesperado en registro:", error.message);
+
+      if (res.headersSent) {
+        return;
+      }
 
       return res.status(500).json({
         message: "Error inesperado al procesar la inscripción."
