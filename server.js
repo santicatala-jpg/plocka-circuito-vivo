@@ -3,7 +3,6 @@
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
-var nodemailer = require("nodemailer");
 var dotenv = require("dotenv");
 var createClient = require("@supabase/supabase-js").createClient;
 
@@ -66,37 +65,6 @@ function escaparHtml(texto) {
     .replace(/'/g, "&#039;");
 }
 
-function crearTransporter() {
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    return null;
-  }
-
-  return nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    },
-    connectionTimeout: 30000,
-    greetingTimeout: 30000,
-    socketTimeout: 30000
-  });
-}
-
-function obtenerEmailFrom() {
-  if (!process.env.EMAIL_USER) {
-    return process.env.EMAIL_FROM || "Plocka Circuito Vivo";
-  }
-
-  if (process.env.EMAIL_FROM) {
-    return '"' + process.env.EMAIL_FROM + '" <' + process.env.EMAIL_USER + ">";
-  }
-
-  return '"Plocka Circuito Vivo" <' + process.env.EMAIL_USER + ">";
-}
-
 function crearHtmlMail(nombre, numeroParticipante) {
   var nombreSeguro = escaparHtml(nombre);
   var numeroSeguro = escaparHtml(numeroParticipante);
@@ -136,28 +104,50 @@ function crearHtmlMail(nombre, numeroParticipante) {
 }
 
 function enviarMailConfirmacion(participante, callback) {
-  var transporter = crearTransporter();
-
-  if (!transporter) {
+  if (!process.env.BREVO_API_KEY || !process.env.BREVO_FROM_EMAIL) {
     callback(null, "Mail no configurado.");
     return;
   }
 
-  var mailOptions = {
-    from: obtenerEmailFrom(),
-    to: participante.email,
+  var payload = {
+    sender: {
+      name: process.env.BREVO_FROM_NAME || "Plocka Circuito Vivo",
+      email: process.env.BREVO_FROM_EMAIL
+    },
+    to: [
+      {
+        email: participante.email,
+        name: participante.nombre + " " + participante.apellido
+      }
+    ],
     subject: "Confirmación de inscripción | Plocka Circuito Vivo",
-    html: crearHtmlMail(participante.nombre, participante.numeroParticipante)
+    htmlContent: crearHtmlMail(participante.nombre, participante.numeroParticipante)
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      callback(error);
-      return;
-    }
+  fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(function (response) {
+      if (!response.ok) {
+        return response.text().then(function (text) {
+          throw new Error(text);
+        });
+      }
 
-    callback(null, info);
-  });
+      return response.json();
+    })
+    .then(function (data) {
+      callback(null, data);
+    })
+    .catch(function (error) {
+      callback(error);
+    });
 }
 
 app.get("/api/health", function (req, res) {
