@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Registro | Plocka Circuito Vivo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="register-page">
+    <header class="register-header">
+      <a href="./index.html" class="logo-link" aria-label="Volver al inicio">
+        <img src="./recursos/plocka-logo.svg" alt="Plocka Circuito Vivo" class="logo">
+      </a>
+    </header>
+
+    <section class="register-card">
+      <h1>Inscripción</h1>
+      <p>Completá tus datos para participar del evento.</p>
+
+      <form id="registerForm" class="register-form">
+        <div class="form-row">
+          <input type="text" name="nombre" placeholder="Nombre" required>
+          <input type="text" name="apellido" placeholder="Apellido" required>
+        </div>
+
+        <input type="email" name="email" placeholder="Mail" required>
+
+        <div class="form-row">
+          <input type="date" name="fechaNacimiento" required>
+          <input type="text" name="dni" placeholder="DNI" required>
+        </div>
+
+        <input type="tel" name="telefono" placeholder="Teléfono" required>
+
+        <input type="text" name="domicilio" placeholder="Dirección / Localidad" required>
+
+        <div class="form-row">
+          <input type="text" name="contactoEmergencia" placeholder="Contacto de emergencia" required>
+          <input type="tel" name="telefonoEmergencia" placeholder="Tel. emergencia" required>
+        </div>
+
+        <label class="checkbox-label">
+  <input type="checkbox" name="terminos" required>
+  <span>
+    Acepto los 
+    <a href="./terminos.html" target="_blank" class="terms-link">
+      términos y condiciones
+    </a>
+    del evento.
+  </span>
+</label>
+
+        <button type="submit" class="submit-button">
+          Registrarme
+        </button>
+
+        <p id="formMessage" class="form-message"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="./registro.js"></script>
+</body>
+</html>
