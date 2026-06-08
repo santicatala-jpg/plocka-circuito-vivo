@@ -102,7 +102,7 @@ function crearHtmlMail(nombre, numeroParticipante) {
       '</div>' +
 
       '<p style="text-align: center; font-size: 17px; font-weight: 700; color: #111111; margin-top: 30px;">' +
-        'Te prometemos que vas a transpirar mucho y que la vas a pasar muy bien.<br>' +
+        'Te prometemos que vas a ayudar mucho y que la vas a pasar muy bien.<br>' +
         '¡Gracias por involucrarte y participar!' +
       '</p>' +
 
