@@ -68,33 +68,40 @@ function escaparHtml(texto) {
 function crearHtmlMail(nombre, numeroParticipante) {
   var nombreSeguro = escaparHtml(nombre);
   var numeroSeguro = escaparHtml(numeroParticipante);
+ var logoUrl = "https://plocka-circuito-vivo.onrender.com/recursos/plocka-logo-mail.png";
 
   return (
-    '<div style="font-family: Montserrat, Arial, sans-serif; max-width: 680px; margin: 0 auto; padding: 40px 24px; color: #111111;">' +
+    '<div style="font-family: Montserrat, Arial, sans-serif; max-width: 680px; margin: 0 auto; padding: 40px 24px; color: #111111; background-color: #ffffff;">' +
 
-      '<div style="text-align: center; margin-bottom: 24px;">' +
-        '<h1 style="color: #0c4f43; margin: 0; font-size: 34px;">Plocka</h1>' +
-        '<p style="letter-spacing: 5px; margin: 0; color: #0c4f43;">circuito vivo</p>' +
+      '<div style="text-align: center; margin-bottom: 28px;">' +
+        '<img src="' + logoUrl + '" alt="Plocka Circuito Vivo" style="width: 220px; max-width: 80%; height: auto; display: block; margin: 0 auto;">' +
       '</div>' +
 
-      '<h2 style="text-align: center; font-size: 30px; font-weight: 500; margin-bottom: 32px;">¡Gracias por inscribirte, ' + nombreSeguro + '!</h2>' +
+      '<h2 style="text-align: center; font-size: 30px; font-weight: 500; margin: 0 0 32px 0; color: #111111;">¡Gracias por inscribirte, ' + nombreSeguro + '!</h2>' +
 
-      '<p style="font-size: 16px; line-height: 1.6;">' +
+      '<p style="font-size: 16px; line-height: 1.6; color: #333333; margin: 0 0 18px 0;">' +
         'Esta carrera promete ser transformadora. Con tu ayuda no solo vamos a divertirnos, sino que también vamos a contribuir al barrio y al ecosistema en general de nuestro país para que el pulmón verde del oeste se mantenga más verde que nunca.' +
       '</p>' +
 
-      '<p style="font-size: 16px; line-height: 1.6;">' +
+      '<p style="font-size: 16px; line-height: 1.6; color: #333333; margin: 0 0 28px 0;">' +
         'Desde Plocka lo que queremos es generar un hábito en la comunidad para que todos nos cuidemos y cuidemos nuestro suelo.' +
       '</p>' +
 
       '<div style="text-align: center; margin: 38px 0;">' +
-        '<div style="display: inline-block; padding: 18px 42px; border-radius: 14px; background: linear-gradient(180deg, #0c5d4f 0%, #022b22 100%); color: white; box-shadow: 0 10px 22px rgba(0,0,0,0.25);">' +
-          '<div style="font-size: 14px; opacity: 0.9; margin-bottom: 6px;">Número de participante</div>' +
-          '<div style="font-size: 28px; font-weight: 700; letter-spacing: 2px;">' + numeroSeguro + '</div>' +
+        '<div style="display: inline-block; padding: 18px 42px; border-radius: 14px; background-color: #003f32; background: linear-gradient(180deg, #0c5d4f 0%, #022b22 100%); box-shadow: 0 10px 22px rgba(0,0,0,0.25);">' +
+
+          '<div style="font-size: 14px; opacity: 0.95; margin-bottom: 6px; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;">' +
+            'Número de participante' +
+          '</div>' +
+
+          '<div style="font-size: 28px; font-weight: 700; letter-spacing: 2px; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-decoration: none;">' +
+            '<span style="color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-decoration: none;">' + numeroSeguro + '</span>' +
+          '</div>' +
+
         '</div>' +
       '</div>' +
 
-      '<p style="text-align: center; font-size: 17px; font-weight: 700;">' +
+      '<p style="text-align: center; font-size: 17px; font-weight: 700; color: #111111; margin-top: 30px;">' +
         'Te prometemos que vas a transpirar mucho y que la vas a pasar muy bien.<br>' +
         '¡Gracias por involucrarte y participar!' +
       '</p>' +
