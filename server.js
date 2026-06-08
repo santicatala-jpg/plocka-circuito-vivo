@@ -76,7 +76,10 @@ function crearTransporter() {
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
-    }
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000
   });
 }
 
@@ -278,22 +281,34 @@ app.post("/api/registro", function (req, res) {
                     numeroParticipante: numeroParticipante
                   };
 
-                  enviarMailConfirmacion(participante, function (errorMail) {
+                  res.status(201).json({
+                    message: "Registro exitoso. Revisá tu mail.",
+                    numeroParticipante: numeroParticipante
+                  });
+
+                  enviarMailConfirmacion(participante, function (errorMail, infoMail) {
                     if (errorMail) {
-                      return res.status(201).json({
-                        message: "Registro exitoso, pero no se pudo enviar el mail.",
-                        numeroParticipante: numeroParticipante
-                      });
+                      console.log("Error al enviar mail:", errorMail.message);
+                      return;
                     }
 
-                    return res.status(201).json({
-                      message: "Registro exitoso. Revisá tu mail.",
-                      numeroParticipante: numeroParticipante
-                    });
+                    if (infoMail === "Mail no configurado.") {
+                      console.log("Registro guardado. Mail no configurado.");
+                      return;
+                    }
+
+                    console.log("Mail enviado correctamente a " + participante.email);
                   });
                 });
             });
         });
+    })
+    .catch(function (error) {
+      console.log("Error inesperado en registro:", error.message);
+
+      return res.status(500).json({
+        message: "Error inesperado al procesar la inscripción."
+      });
     });
 });
 
